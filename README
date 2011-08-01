@@ -1,11 +1,60 @@
+Original plugin by tamoyal, modifications by Casey Watts.
+
+
+Changes:
+*A default time can be set (especially useful for editing objects)
+*Cross-midnight capability. Start and end times don’t need to be on the same day. An asterisk is placed after anything in “the next day” [12:30*].
+*Start and end times can be any time; it doesn’t just round to the nearest hour.
+*Start and end times can be excluded from the form if needed.
+
+I feed these values to the form by using instance variables defined in a helper, which I call at the top of the view page.
+
+Example use:
+      <p>
+        <%= f.label :start %><br />
+        <%= f.time_select :start_time, {
+                :simple_time_select => true,
+                :time_separator => "",
+                :minute_interval => @department.department_config.time_increment,
+
+                :start_time => @range_start_time,
+                :end_time => @range_end_time,
+
+                :default => @time_slot.start,
+                :include_start_time => true,
+                :include_end_time => false,
+                                          } %>
+      </p>
+      <p>
+        <%= f.label :end %><br />
+        <%= f.time_select :end_time, {
+                :simple_time_select => true,
+                :time_separator => "",
+                :minute_interval => @department.department_config.time_increment,
+
+                :start_time => @range_start_time,
+                :end_time => @range_end_time,
+
+                :default => @time_slot.end,
+                :include_start_time => false,
+                :include_end_time => true,
+                                          } %>
+      </p>
+
+
+
+
+
+=======================================
+
 SIMPLE TIME SELECT PLUGIN
 
-Ever wanted a time select component with only one select field? This simple plugin 
+Ever wanted a time select component with only one select field? This simple plugin
 gives you that component and allows you to set minute intervals. If you set your
 minute interval to 15, you get options such as:
 "6:00 PM", "6:15 PM", "6:30 PM", etc.
 
-If no minute interval is specified, the control defaults to a 15 minute interval. 
+If no minute interval is specified, the control defaults to a 15 minute interval.
 As you can see from the sample values above, this control also implements an AM/PM time
 format.
 
@@ -28,7 +77,7 @@ Simple time select also takes a start_hour and end_hour option to be specified i
 The start hour behaves as you would expect but the end_hour may not.  If you specify the end_hour as 10, your time select will include 10:15, 10:30, 10:45.  So the end_hour sets the last hour that the time select will include. Email me if you don't like this.
 
 When the time is submitted, you will have the value in params on the controller side as shown below:
-  
+
   params[:event][:"time(i)"]
 
 Simply add these lines of code to your handler to play nicely with ActiveRecord:
@@ -39,7 +88,7 @@ Simply add these lines of code to your handler to play nicely with ActiveRecord:
 Now the time will be correct, but the date will be the current date.  Here are a couple options for changing the date:
 
 1) Change the date in your controller (replace anything in < > with your own variables):
-  
+
   params[:event][:time] = params[:event][:time].change(:year => <year_var>, :day => <day_var>, :month => <month_var>)
   *I do not use this method, you may need to cast params[:event][:time] to a Time object before applying "change" to it.
 
