@@ -1,5 +1,5 @@
-Original plugin by tamoyal, modifications by Casey Watts.
-
+Original plugin by tamoyal, modifications by Casey Watts and Chris
+Oliver.
 
 Changes:
 *A default time can be set (especially useful for editing objects)
@@ -41,13 +41,25 @@ Example use:
                                           } %>
       </p>
 
+Controller code:
 
+    def create
+      # Parse the date and time fields into a new param and delete the individual params
+      params[:event][:start_time] = Time.zone.parse("#{params[:event]["start_time(1i)"]}-#{params[:event]["start_time(2i)"]}-#{params[:event]["start_time(3i)"]} #{params[:event]["start_time(5i)"]}")
+      (1..5).each { |i| params[:event].delete "start_time(#{i}i)" }
 
+      # Parse the date and time fields into a new param and delete the individual params
+      params[:event][:end_time] = Time.zone.parse("#{params[:event]["end_time(1i)"]}-#{params[:event]["end_time(2i)"]}-#{params[:event]["end_time(3i)"]} #{params[:event]["end_time(5i)"]}")
+      (1..5).each { |i| params[:event].delete "end_time(#{i}i)" }
 
+      @event = Event.new params[:event]
 
-=======================================
+      # The rest of your controller code
+    end
+
 
 SIMPLE TIME SELECT PLUGIN
+=========================
 
 Ever wanted a time select component with only one select field? This simple plugin
 gives you that component and allows you to set minute intervals. If you set your
