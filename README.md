@@ -1,3 +1,6 @@
+SIMPLE TIME SELECT PLUGIN
+=========================
+
 Original plugin by tamoyal, modifications by Casey Watts and Chris
 Oliver.
 
@@ -10,6 +13,7 @@ Changes:
 I feed these values to the form by using instance variables defined in a helper, which I call at the top of the view page.
 
 Example use:
+
       <p>
         <%= f.label :start %><br />
         <%= f.time_select :start_time, {
@@ -57,9 +61,6 @@ Controller code:
       # The rest of your controller code
     end
 
-
-SIMPLE TIME SELECT PLUGIN
-=========================
 
 Ever wanted a time select component with only one select field? This simple plugin
 gives you that component and allows you to set minute intervals. If you set your
